@@ -1,23 +1,25 @@
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-import pandas as pd
-import numpy as np
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, classification_report
+
+import sys
+import numpy as np
 
 from preprocess import songs_pre_precessed
 
+# get args to see if we want to use KNN or SVM
+model = sys.argv[1]
 
 df = songs_pre_precessed()
-df.to_excel('taylor_swift_lyrics_preprocessed.xlsx', index=False)
 
 # Split the data into training and testing sets
-
 X = np.stack(df['song_vector'].to_numpy())
 y = df['Album'].to_numpy()
 
 # Get the indices for training and testing
-train_indices, test_indices = train_test_split(df.index, test_size=0.4, random_state=9137)
+train_indices, test_indices = train_test_split(df.index, test_size=0.4, random_state=13)
 
 # Create your training and testing data
 X_train, X_test = X[train_indices], X[test_indices]
@@ -35,12 +37,28 @@ y_train_encoded = label_encoder.fit_transform(y_train.astype(str))
 # Transform y_test
 y_test_encoded = label_encoder.transform(y_test.astype(str))
 
-# Initialize and train the SVM
-svm = SVC(kernel='rbf', C=1, probability=True, random_state=13, class_weight='balanced')
-svm.fit(X_train, y_train_encoded)
+y_pred = None
+if model == 'knn':
+    # Fit the KNN model
+    knn = KNeighborsClassifier(n_neighbors=7)
+    knn.fit(X_train, y_train_encoded)
 
-# Predict the album for each song in the test set
-y_pred = svm.predict(X_test)
+    # Predict the album for each song in the test set
+    y_pred = knn.predict(X_test)
+
+
+elif model == 'svm':
+    # Initialize and train the SVM
+    svm = SVC(kernel='rbf', C=1, probability=True, random_state=13, class_weight='balanced')
+    svm.fit(X_train, y_train_encoded)
+
+    # Predict the album for each song in the test set
+    y_pred = svm.predict(X_test)
+
+else:
+    print("Invalid model")
+    sys.exit(1)
+
 y_pred_decoded = label_encoder.inverse_transform(y_pred)
 y_test_decoded = label_encoder.inverse_transform(y_test_encoded)
 
@@ -55,9 +73,10 @@ f1 = report['weighted avg']['f1-score'] # This represents the balance between pr
 df_test['predicted_album'] = y_pred_decoded
 
 # Display the actual and predicted albums for each song
-df_test.to_excel('predicitions.xlsx', index=False)
+df_test.to_excel('predictions.xlsx', index=False)
 print(df_test[['Song Name', 'Album', 'predicted_album']])
-print(f'SVM Accuracy: {accuracy}')
-print(f'SVM Precision: {precision}')
-print(f'SVM Recall: {recall}')
-print(f'SVM F1-score: {f1}')
+
+print(f'\n{model.upper()} Accuracy: {accuracy}')
+print(f'{model.upper()} Precision: {precision}')
+print(f'{model.upper()} Recall: {recall}')
+print(f'{model.upper()} F1-score: {f1}')

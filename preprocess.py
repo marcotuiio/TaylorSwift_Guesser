@@ -54,5 +54,6 @@ def songs_pre_precessed():
     # Apply aggregation function to the 'tokens' column
     df['song_vector'] = df['tokens'].apply(lambda x: aggregate_vectors(x, model))
     df['Album'] = df['Album'].astype(str)
+    df.to_excel('taylor_swift_lyrics_preprocessed.xlsx', index=False)
 
     return df

@@ -17,24 +17,47 @@ This project is a very simple machine learning model that classifies Taylor Swif
 
 1. Clone this repository.
 2. Install the required dependencies using `pip install -r requirements.txt`.
-3. Run `python svm.py` to preprocess the data, train the model, and make predictions.
+3. Run `python ml_models.py {knn or svm}` to preprocess the data, train the model, and make predictions.
 
 ## Project Structure
 
-- `svm.py`: The main Python script that contains the data preprocessing, model training, and evaluation code.
+- `ml_models.py`: The main Python script that contains the data preprocessing, model training, and evaluation code.
 - `taylor_swift_lyrics.xlsx`: The dataset containing Taylor Swift song lyrics and their corresponding album labels.
 - `requirements.txt`: A list of Python packages required to run the project.
 
-## Results
+## KNN vs SVM for Album Guesser
 
-I'm not able to take the results from the model yet cause I'm still working on it, even though is pretty simple.
-<!-- The model achieves an accuracy of X%, precision of Y%, recall of Z%, and an F1-score of W%. -->
+### Choice of Models
+
+For the Album Guesser project, I compared the performance of K-Nearest Neighbors (KNN) and Support Vector Machine (SVM) models for classifying Taylor Swift songs into albums based on their lyrics. Both models were chosen for their suitability in classification tasks and ease of implementation.
+
+### Datasets and Challenges
+
+The dataset consists of Taylor Swift songs and their lyrics, posing a challenging classification task due to the varied styles and themes within each album. Additionally, the dataset size is relatively small, which can impact the performance of complex models.
+
+### KNN Outperformance
+
+KNN outperformed SVM in this project, likely due to the following reasons:
+
+1. Feature Space: Word2Vec embeddings created a meaningful feature space where the concept of similarity between songs was well-defined. KNN, which relies on finding similarities with nearby points, could leverage this effectively.
+
+2. Dataset Size: KNN performs well on smaller datasets, capturing local patterns effectively. The dataset size may have been better suited to KNN compared to SVM, which requires more data for complex decision boundaries.
+
+3. Model Complexity: KNN is a non-parametric model that does not make strong assumptions about the underlying data distribution. This flexibility may have allowed it to capture the nuances of Taylor Swift's song lyrics more effectively.
+
+4. Hyperparameters: The hyperparameters chosen for KNN, such as the number of neighbors, may have been more suitable for the dataset compared to those chosen for SVM
+
+5. Class Imbalance: KNN can be more robust to class imbalance, which could have contributed to its better performance if certain albums had more songs than others.
+
+### Conclusion
+
+The better performance of KNN over SVM highlights the importance of selecting the appropriate model and features for a given dataset. It demonstrates that simpler models like KNN can sometimes outperform more complex models like SVM, especially in cases where the dataset is small and the relationships between features are well-defined.
 
 ## Future Improvements
 
-- Experiment with different word embedding techniques.
+- Adition of a new experiment with new datasets to guess if the song is from Taylor Swift or not.
 - Try different machine learning models.
-- Include additional features such as song length or sentiment analysis of lyrics.
+- Experiment with different word embedding techniques and improve dataset.
 
 ## Contributions
 
