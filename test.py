@@ -1,4 +1,4 @@
-from preprocess import process_all_songs
+from preprocess import *
 
 df = process_all_songs()
 
