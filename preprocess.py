@@ -57,3 +57,30 @@ def songs_pre_precessed():
     df.to_excel('taylor_swift_lyrics_preprocessed.xlsx', index=False)
 
     return df
+
+def process_all_songs():
+    df = pd.read_csv('/home/marcotuiio/TaylorSwift_Guesser/combined_dataset.csv')
+
+    df['Lyric'] = df['Lyric'].str.lower()
+    df['Lyric'] = df['Lyric'].apply(lambda x: re.sub(r'[^a-zA-Z\s]', '', x))
+
+    stop_words = set(stopwords.words('english'))
+    stop_words.update(["oh", "ah", "yeah", "hey"])  # Add common words to stop_words
+
+    df['Lyric'] = df['Lyric'].apply(lambda x: ' '.join([word for word in x.split() if word not in stop_words]))
+
+    # Tokenize the lyrics, I'll be using word2vec to create word embeddings
+    df['tokens'] = df['Lyric'].apply(word_tokenize)
+
+    # Train Word2Vec model
+    # vector_size: The dimensionality of the word vectors
+    # window: The maximum distance between the current and predicted word within a sentence
+    # min_count: Ignores all words with total frequency lower than this
+    # sg: Training algorithm: 1 for skip-gram; 0 for CBOW
+    model = Word2Vec(df['tokens'], vector_size=200, window=150, min_count=1, sg=0)
+
+    # Apply aggregation function to the 'tokens' column
+    df['song_vector'] = df['tokens'].apply(lambda x: aggregate_vectors(x, model))
+    df.to_excel('taylor_swift_lyrics_preprocessed.xlsx', index=False)
+
+    return df
