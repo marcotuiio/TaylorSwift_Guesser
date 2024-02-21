@@ -78,8 +78,9 @@ df_test['predicted_album'] = y_pred_decoded
 
 # Display the actual and predicted albums for each song
 dest_file_path = os.path.join(project_root, 'assets', 'predictions.xlsx')
+df_test = df_test[['Song Name', 'Album', 'predicted_album']]
 df_test.to_excel(dest_file_path, index=False)
-print(df_test[['Song Name', 'Album', 'predicted_album']])
+# print(df_test[['Song Name', 'Album', 'predicted_album']])
 
 print(f'\n{model.upper()} Accuracy: {accuracy}')
 print(f'{model.upper()} Precision: {precision}')

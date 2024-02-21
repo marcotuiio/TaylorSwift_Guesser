@@ -2,7 +2,7 @@
 
 ![Image Description](https://s2-valor.glbimg.com/Yua9P2Y1h5bN9SS8x_KxUMdxTIs=/0x0:3000x2000/888x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_63b422c2caee4269b8b34177e8876b93/internal_photos/bs/2023/O/B/pBmpraTpusPFuQzb5gqw/399856954.jpg)
 
-This project is a very simple machine learning model that classifies Taylor Swift songs into their respective albums based on their lyrics. The ideia was not to reinvent the wheel, was simply to to create a fun and educational project for fans of Taylor Swift and also learn some basic of the NLP and Machine Learning.
+This project is a very simple machine learning model that classifies Taylor Swift songs into their respective albums based on their lyrics or predict yes if belongs to TS or not. The ideia was not to reinvent the wheel, was simply to to create a fun and educational project for fans of Taylor Swift and also learn some basic of the NLP and Machine Learning.
 
 ## How It Works
 
