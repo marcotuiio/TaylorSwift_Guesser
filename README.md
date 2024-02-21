@@ -17,13 +17,20 @@ This project is a very simple machine learning model that classifies Taylor Swif
 
 1. Clone this repository.
 2. Install the required dependencies using `pip install -r requirements.txt`.
-3. Run `python ml_models.py {knn or svm}` to preprocess the data, train the model, and make predictions.
+3. Run `python ml_album.py {knn or svm}` to preprocess the data, train the model, and make predictions about the albums.
+4. Run `python ml_artist.py {knn or svm}` to preprocess the data, train the model, and make predictions if the song is from Taylor Swift or not.
 
 ## Project Structure
 
-- `ml_models.py`: The main Python script that contains the data preprocessing, model training, and evaluation code.
-- `taylor_swift_lyrics.xlsx`: The dataset containing Taylor Swift song lyrics and their corresponding album labels.
+- `src/preprocess`: This directory contains the Python scripts for data preprocessing, including dataset creation, text cleaning and word embedding.
+- `src/ml_albums.py`: The main Python script for album classifier that contains the data preprocessing, model training, and evaluation code.
+- `src/ml_artist.py`: The main Python script for artist classifier that contains the data preprocessing, model training, and evaluation code.
+- `assets/taylor_swift_lyrics.xlsx`: The dataset containing Taylor Swift song lyrics and their corresponding album labels.
+- `assets/combined_dataset.xlsx`: The dataset with lots of songs from different artists and the label if the song is from Taylor Swift or not.
+- `assets/archive`: This directory contains the poluted original dataset with the lyrics of the songs. 
 - `requirements.txt`: A list of Python packages required to run the project.
+
+* ps: The created datasets after some preprocessing will also be in the assets folder.
 
 ## KNN vs SVM for Album Guesser
 
@@ -53,9 +60,31 @@ KNN outperformed SVM in this project, likely due to the following reasons:
 
 The better performance of KNN over SVM highlights the importance of selecting the appropriate model and features for a given dataset. It demonstrates that simpler models like KNN can sometimes outperform more complex models like SVM, especially in cases where the dataset is small and the relationships between features are well-defined.
 
+## KNN vs SVM for Classifying if YES or NO TAYLOR SWIFT
+
+### Choice of Models
+
+I chose to keep the same initial models even to compare how they would performe in a slightly different task.
+
+### Datasets and Challenges
+
+This time I have a much much bigger set of entries. The initial set was very poluted (still not perfect) and a big part of data cleaning was remove the songs with useless texts, trash entries, unreleased data, some keywords crashing the filter and stuff like that. After doing some cleaning the result dataset could perform better in the classification task.
+
+### KNN Outperformance
+
+This time the KNN slightly outperformed the SVM. The reasons are the same as the previous task, but in this case the dataset size was a big factor. The KNN is a non-parametric model that does not make strong assumptions about the underlying data distribution. This flexibility may have allowed it to capture the nuances of the songs lyrics more effectively.
+The fact to play test the neighbors number was also a big factor in the performance of the KNN.
+
+### Conclusion
+
+The metrics showed to be more close to reality. In the previous project sometimes they seemed off and not very reliable. 
+
+Another very obvious and error inducing factor is that if the dataset has 1000 songs and 50 are from TS, the model will be very biased to say that the song is not from TS. This is a issue of class imbalance and its a challenge that should be addressed to ensure unbiased model predictions.
+
+Overall, I was pretty satisfied with the results and the performance of the models but its very important to keep the biased of the dataset in mind, and  I intend to test new models in the future to see how they perform in this task.
+
 ## Future Improvements
 
-- Adition of a new experiment with new datasets to guess if the song is from Taylor Swift or not.
 - Try different machine learning models.
 - Experiment with different word embedding techniques and improve dataset.
 
