@@ -4,6 +4,8 @@
 
 This project is a very simple machine learning model that classifies Taylor Swift songs into their respective albums based on their lyrics or predict yes if belongs to TS or not. The ideia was not to reinvent the wheel, was simply to to create a fun and educational project for fans of Taylor Swift and also learn some basic of the NLP and Machine Learning.
 
+Disclaimer: The .py files have the same structure and the code is pretty much the same (datasets, validation may change), but to leave in a single file would be very confusing and hard to read.
+
 ## How It Works
 
 1. **Data Collection**: The lyrics data for Taylor Swift songs is collected from various sources.
@@ -42,9 +44,9 @@ For the Album Guesser project, I compared the performance of K-Nearest Neighbors
 
 The dataset consists of Taylor Swift songs and their lyrics, posing a challenging classification task due to the varied styles and themes within each album. Additionally, the dataset size is relatively small, which can impact the performance of complex models.
 
-### KNN Outperformance
+### KNN Outperformance without Leave One Out
 
-KNN outperformed SVM in this project, likely due to the following reasons:
+KNN outperformed SVM when not using LOO in this project, likely due to the following reasons:
 
 1. Feature Space: Word2Vec embeddings created a meaningful feature space where the concept of similarity between songs was well-defined. KNN, which relies on finding similarities with nearby points, could leverage this effectively.
 
@@ -56,9 +58,12 @@ KNN outperformed SVM in this project, likely due to the following reasons:
 
 5. Class Imbalance: KNN can be more robust to class imbalance, which could have contributed to its better performance if certain albums had more songs than others.
 
+* And then when applying LOO, SVM showed a interesting superior performance (abput .05 in accuracy and .1 in F1 score).
+
 ### Conclusion
 
 The better performance of KNN over SVM highlights the importance of selecting the appropriate model and features for a given dataset. It demonstrates that simpler models like KNN can sometimes outperform more complex models like SVM, especially in cases where the dataset is small and the relationships between features are well-defined.
+However when the LOO was used as validation, a different conclusion can be drawn. Maybe because the dataset is better used and SVM can capture the nuances of the lyrics better than KNN. Still the results ARE NOT very reliable, but when you have a small .2 accuracy and get a improvement of .05 by changing validation it is a considerable improvement.
 
 ## KNN vs SVM for Classifying if YES or NO TAYLOR SWIFT
 
@@ -77,7 +82,7 @@ The fact to play test the neighbors number was also a big factor in the performa
 
 ### Conclusion
 
-The metrics showed to be more close to reality. In the previous project sometimes they seemed off and not very reliable. 
+The metrics showed to be more close to reality. In the previous project sometimes they seemed off and not very reliable. In this case doesnt make sense to use LOO.
 
 Another very obvious and error inducing factor is that if the dataset has 1000 songs and 50 are from TS, the model will be very biased to say that the song is not from TS. This is a issue of class imbalance and its a challenge that should be addressed to ensure unbiased model predictions.
 

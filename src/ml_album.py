@@ -23,7 +23,7 @@ X = np.stack(df['song_vector'].to_numpy())
 y = df['Album'].to_numpy()
 
 # Get the indices for training and testing
-train_indices, test_indices = train_test_split(df.index, test_size=0.3, random_state=31)
+train_indices, test_indices = train_test_split(df.index, test_size=0.3, random_state=31, stratify=y)
 
 # Create your training and testing data
 X_train, X_test = X[train_indices], X[test_indices]
