@@ -63,7 +63,10 @@ KNN outperformed SVM when not using LOO in this project, likely due to the follo
 ### Conclusion
 
 The better performance of KNN over SVM highlights the importance of selecting the appropriate model and features for a given dataset. It demonstrates that simpler models like KNN can sometimes outperform more complex models like SVM, especially in cases where the dataset is small and the relationships between features are well-defined.
+
 However when the LOO was used as validation, a different conclusion can be drawn. Maybe because the dataset is better used and SVM can capture the nuances of the lyrics better than KNN. Still the results ARE NOT very reliable, but when you have a small .2 accuracy and get a improvement of .05 by changing validation it is a considerable improvement.
+
+Another interesting fact observed after reading Predicted x Real, is that some albums are way harder than other to creaate relations between the lyrics and the album. This showed song from some albums to never be predicted correctly.On the other hand some albums have lyrics with more specifics and the models could get around them better, eg album Fearless and Speak Now showes interesting results. And last but not least, the albums folklore and evermore (sister albums) seemed to be a single thing for the model, as they are very similiar, and the model had a hard time to distinguish them, for eg sometimes it was folckore and the real was evermore or vice versa.
 
 ## KNN vs SVM for Classifying if YES or NO TAYLOR SWIFT
 
