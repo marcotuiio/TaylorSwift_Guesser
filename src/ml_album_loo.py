@@ -12,19 +12,22 @@ import numpy as np
 current_dir = os.path.dirname(os.path.realpath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, os.pardir))
 sys.path.append(project_root)
+
 from src.preprocess import ts_songs_pre_precessed
+from src.results import save_metrics
 
 # get args to see if we want to use KNN or SVM
+model = ''
 model = sys.argv[1]
+if (model == ''):
+    print("No model specified. Set to default value (svm)")
+    model = 'svm' # default value
 
 df = ts_songs_pre_precessed()
 
 # Split the data into training and testing sets
 X = np.stack(df['song_vector'].to_numpy())
 y = df['Album'].to_numpy()
-
-# Get the indices for training and testing
-train_indices, test_indices = train_test_split(df.index, test_size=0.3, random_state=31, stratify=y)
 
 # Initialize LeaveOneOut
 loo = LeaveOneOut()
@@ -39,7 +42,19 @@ for train_index, test_index in loo.split(X):
 
     # Fit the model (either KNN or SVM)
     if model == 'knn':
-        knn = KNeighborsClassifier(n_neighbors=5)
+        n = 5  # default value
+
+        if len(sys.argv) > 2:
+            try:
+                n = int(sys.argv[2])
+                if n < 1 or n > 15:
+                    print("Invalid k, must be between 1 and 15. Setting to default value (5)")
+                    n = 5
+            except ValueError:
+                print("Invalid k, must be an integer. Setting to default value (5)")
+                n = 5
+                
+        knn = KNeighborsClassifier(n_neighbors=n)
         knn.fit(X_train, y_train)
         y_pred = knn.predict(X_test)
 
@@ -56,8 +71,8 @@ for train_index, test_index in loo.split(X):
     ground_truth.append(y_test[0])
 
     # Print the input data, real label, and predicted label
-    print(f"Real Label: {y_test[0]}")
-    print(f"Predicted Label: {y_pred[0]}\n")
+    # print(f"Real Label: {y_test[0]}")
+    # print(f"Predicted Label: {y_pred[0]}\n")
 
 # Convert the lists to arrays for easier calculation
 predictions = np.array(predictions)
@@ -75,3 +90,12 @@ print(f'\n{model.upper()} Accuracy: {accuracy}')
 print(f'{model.upper()} Precision: {precision}')
 print(f'{model.upper()} Recall: {recall}')
 print(f'{model.upper()} F1-score: {f1}')
+
+# Save the metrics to the results file
+if model == 'knn':
+    save_metrics('album', 'KNN', accuracy, precision, recall, f1, "LOO", n)
+elif model == 'svm':
+    save_metrics('album', 'SVM', accuracy, precision, recall, f1, "LOO", 0)
+else:
+    print("Invalid model")
+    sys.exit(1)

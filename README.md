@@ -19,12 +19,16 @@ Disclaimer: The .py files have the same structure and the code is pretty much th
 
 1. Clone this repository.
 2. Install the required dependencies using `pip install -r requirements.txt`.
-3. Run `python ml_album.py {knn or svm}` to preprocess the data, train the model, and make predictions about the albums.
-4. Run `python ml_artist.py {knn or svm}` to preprocess the data, train the model, and make predictions if the song is from Taylor Swift or not.
+3. Run `python ml_album.py {knn or svm} {test_size} {k_neighbors}` to preprocess the data, train the model, and make predictions about the albums.
+3. Run `python ml_album_loo.py {knn or svm} {k_neighbors}` to preprocess the data, train the model, and make predictions about the albums with Leave One Out validation.
+4. Run `python ml_artist.py {knn or svm} {test_size}` to preprocess the data, train the model, and make predictions if the song is from Taylor Swift or not.
+5. If no args are passed, the default values are: svm, 0.3, 5.
+6. To plot the charts you can go into src/result.py and choose what charts you want, from which model and which dataset.
 
 ## Project Structure
 
-- `src/preprocess`: This directory contains the Python scripts for data preprocessing, including dataset creation, text cleaning and word embedding.
+- `src/preprocess`: This file contains the Python scripts for data preprocessing, including dataset creation, text cleaning and word embedding.
+- `src/results.py`: This is responsible for storing the results of the models and plotting the charts.
 - `src/ml_albums.py`: The main Python script for album classifier that contains the data preprocessing, model training, and evaluation code.
 - `src/ml_artist.py`: The main Python script for artist classifier that contains the data preprocessing, model training, and evaluation code.
 - `assets/taylor_swift_lyrics.xlsx`: The dataset containing Taylor Swift song lyrics and their corresponding album labels.
@@ -41,6 +45,10 @@ Disclaimer: The .py files have the same structure and the code is pretty much th
 For the Album Guesser project, I compared the performance of K-Nearest Neighbors (KNN) and Support Vector Machine (SVM) models for classifying Taylor Swift songs into albums based on their lyrics. Both models were chosen for their suitability in classification tasks and ease of implementation.
 
 ### Datasets and Challenges
+
+Here is as example of the dataset after being processed
+
+![alt text](assets/charts/ex_dataset.png)
 
 The dataset consists of Taylor Swift songs and their lyrics, posing a challenging classification task due to the varied styles and themes within each album. Additionally, the dataset size is relatively small, which can impact the performance of complex models.
 
@@ -76,6 +84,10 @@ I chose to keep the same initial models even to compare how they would performe 
 
 ### Datasets and Challenges
 
+Here is as example of the dataset after being combined, filtered and process
+
+![alt text](assets/charts/ex_combidataset.png)
+
 This time I have a much much bigger set of entries. The initial set was very poluted (still not perfect) and a big part of data cleaning was remove the songs with useless texts, trash entries, unreleased data, some keywords crashing the filter and stuff like that. After doing some cleaning the result dataset could perform better in the classification task.
 
 ### KNN Outperformance
@@ -84,6 +96,18 @@ This time the KNN slightly outperformed the SVM. The reasons are the same as the
 The fact to play test the neighbors number was also a big factor in the performance of the KNN.
 
 ### Conclusion
+
+Some results for the album prediction can be seen in the table below: 
+
+![alt text](assets/charts/image.png)
+
+A chart to comapare how test size affects the accuracy
+
+![alt text](assets/charts/accuracy_vs_test_size.png)
+
+A model wise related to the F1-score chart
+
+![alt text](assets/charts/model_wise_f1.png)
 
 The metrics showed to be more close to reality. In the previous project sometimes they seemed off and not very reliable. In this case doesnt make sense to use LOO.
 
