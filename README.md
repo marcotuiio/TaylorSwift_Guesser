@@ -68,6 +68,63 @@ KNN outperformed SVM when not using LOO in this project, likely due to the follo
 
 * And then when applying LOO, SVM showed a interesting superior performance (abput .05 in accuracy and .1 in F1 score).
 
+### Neural Network
+
+Im starting a new aproach for this problem to try new results and learn new models
+
+This uses a Sequential model with:
+* Dense layer with 500 neurons and ReLU activation function
+* Dropout layer with a rate of 0.2
+* Dense layer with 300 neurons and ReLU activation function
+* Dropout layer with a rate of 0.2
+* Dense layer with 300 neurons and ReLU activation function
+* Dropout layer with a rate of 0.2
+* Dense layer with 150 neurons and ReLU activation function
+* Dense output layer with a number of neurons equal to the number of classes in the target variable and a softmax activation function
+
+The model is compiled with the Adam optimizer and the Sparse Categorical Crossentropy loss function. It also uses accuracy as a metric.
+
+#### Training:
+
+The model is trained for 50 epochs with a validation split of 0.2. Early stopping is used to stop training when the validation loss has not improved for 50 epochs. The best weights are restored at the end of training.
+
+#### Prediction and Evaluation:
+
+The model predicts the album for each song in the test set. The predictions are then converted from probabilities to class labels. The model's performance is evaluated using accuracy, which is printed at the end of the script.
+
+#### Examples:
+Accuracy: 23.333333432674408%
+Actual: Reputation x Predicted: Reputation
+Actual: folklore x Predicted: folklore
+Actual: Taylor Swift x Predicted: Reputation
+Actual: 1989 x Predicted: 1989
+Actual: Lover x Predicted: folklore
+Actual: folklore x Predicted: folklore
+Actual: Midnights x Predicted: Reputation
+Actual: Fearless x Predicted: Lover
+Actual: Fearless x Predicted: Reputation
+Actual: Lover x Predicted: Reputation
+Actual: evermore x Predicted: folklore
+Actual: Reputation x Predicted: Lover
+Actual: 1989 x Predicted: Reputation
+Actual: Speak Now x Predicted: folklore
+Actual: 1989 x Predicted: evermore
+Actual: Red x Predicted: Lover
+Actual: Red x Predicted: 1989
+Actual: Speak Now x Predicted: Reputation
+Actual: Speak Now x Predicted: Lover
+Actual: Lover x Predicted: Lover
+Actual: Taylor Swift x Predicted: folklore
+Actual: Taylor Swift x Predicted: folklore
+Actual: evermore x Predicted: Lover
+Actual: Lover x Predicted: folklore
+Actual: folklore x Predicted: folklore
+Actual: evermore x Predicted: folklore
+Actual: Reputation x Predicted: Reputation
+Actual: Red x Predicted: Reputation
+Actual: Fearless x Predicted: Reputation
+Actual: Midnights x Predicted: folklore
+
 ### Conclusion
 
 The better performance of KNN over SVM highlights the importance of selecting the appropriate model and features for a given dataset. It demonstrates that simpler models like KNN can sometimes outperform more complex models like SVM, especially in cases where the dataset is small and the relationships between features are well-defined.
